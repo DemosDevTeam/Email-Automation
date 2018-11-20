@@ -1,0 +1,19 @@
+{
+  "name": "acta",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
+    "agenda": "^2.0.2",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.5",
+    "morgan": "~1.9.0"
+  }
+}
