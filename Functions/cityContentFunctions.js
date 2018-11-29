@@ -12,16 +12,13 @@ module.exports = {
     saveCityBlock: (city,state,dateToBeCreated,events,councilMeetingUpdates,townInTheNews,communityActionOpportunities)=> {
         let cityName = city;
         let stateName = state;
-        let contentCategories = [];
-        let obj = {
-            dateToBeSubmitted: dateToBeCreated,
+        let contentCategories = {
+            dateToBeCreated: dateToBeCreated,
             events: events,
             councilMeetingUpdates: councilMeetingUpdates,
             townInTheNews: townInTheNews,
             communityActionOpportunities: communityActionOpportunities
         };
-        contentCategories.push(obj);
-
         CityContent.find({cityName: cityName, stateName: stateName}, function (err, docs) {
             if (!docs.length)
             {
@@ -37,7 +34,7 @@ module.exports = {
             else
             {
                 console.log('updating existing');
-                CityContent.update({cityName: cityName, stateName: stateName},
+                CityContent.updateOne({cityName: cityName, stateName: stateName},
                     {$push: {contentCategories: contentCategories}},(err,cityContent)=>{
 
                         if(err)
@@ -47,16 +44,17 @@ module.exports = {
                     });
             }
         });
+        return contentCategories;
     },
 
-    scheduleEmail: (city,state,dateToBeCreated,usersList)=>{
+    scheduleEmail: (city,state,dateToBeCreated,usersList,contentCategories)=>{
 
         let promise = new Promise( (resolve,reject)=>
         {
             agenda.define('sendEmail'+city+'_'+state,
                 (job,done) =>{
                     console.log('Email is sent!!!!');
-                    email.sendEmail(usersList,done);
+                    email.sendEmail(usersList,contentCategories,done);
                     done();
                 });
             resolve();
@@ -75,7 +73,7 @@ module.exports = {
             users.map(obj=>{
                 arrayEmails.push(obj.email);
             });
-            return users;
+            return arrayEmails;
         }
         catch (e) {
             console.log(e);

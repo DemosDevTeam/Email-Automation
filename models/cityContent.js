@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
 
+let contentCategoriesSchema = new mongoose.Schema({
+    events: Array,
+    councilMeetingUpdates: Array,
+    townInTheNews: Array,
+    communityActionOpportunities: Array,
+    dateToBeCreated: String
+});
+
 const CityContentSchema = mongoose.Schema({
    cityName: {
        type: String
@@ -7,13 +15,7 @@ const CityContentSchema = mongoose.Schema({
    stateName: {
        type: String
    },
-   contentCategories: [{
-        dateToBeSubmitted: String,
-        events: Array,
-        councilMeetingUpdates: Array,
-        newsInTheTown: Array,
-        communityActionOpportunities: Array
-   }]
+   contentCategories: [contentCategoriesSchema]
 });
 
 let CityContent = module.exports = mongoose.model('CityContent', CityContentSchema);

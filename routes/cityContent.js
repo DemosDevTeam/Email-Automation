@@ -36,23 +36,18 @@ router.post('/communityActionOpportunities',(req,res)=>{
     res.sendStatus(200);
 });
 
-router.post('/dateAndTime',(req,res)=>{
+router.post('/dateAndTime',async (req,res)=>{
    console.log(req.body);
    city = req.body.city;
    state = req.body.state;
    dateToBeCreated = req.body.dateToBeCreated;
-   cityContent.saveCityBlock(city,state,dateToBeCreated,events,councilMeetingUpdates,townInTheNews,communityActionOpportunities);
-   let users = cityContent.subscribedEmailList(city,state);
-   cityContent.scheduleEmail(city,state,dateToBeCreated,users);
+   let contentCategories = cityContent.saveCityBlock(city,state,dateToBeCreated,events,councilMeetingUpdates,townInTheNews,communityActionOpportunities);
+   let users = await cityContent.subscribedEmailList(city,state);
+   console.log('users: ',users);
+   cityContent.scheduleEmail(city,state,dateToBeCreated,users,contentCategories);
 
    res.sendStatus(200);
 
-});
-
-router.get('/test',(req,res)=>{
-    let users = ['vbvrocks84@gmail.com','vbvmalhotra@gmail.com'];
-    cityContent.scheduleEmail('Des Moines','Iowa','in 2 minutes',users);
-    res.sendStatus(200);
 });
 
 
