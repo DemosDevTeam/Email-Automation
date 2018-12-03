@@ -16,7 +16,7 @@ module.exports = {
             subject: 'Sending with SendGrid is Fun',
             html: compiledTemplate.render({cityContentData: obj})
         };
-        sgMail.send(msg);
+        sgMail.sendMultiple(msg);
         done();
     }
 };
