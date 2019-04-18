@@ -12,6 +12,31 @@ let city
     state;
 
 
+//Andrew added endpoint
+router.post('/uploadCityContent', async (req, res) => {
+
+    //parse out relevant information from request body and into vars to be used in write to db and scheduling emial
+    city = req.body.cityName;
+    state = req.body.stateName;
+    events = req.body.events;
+    councilMeetingUpdates = req.body.councilMeetingUpdates;
+    townInTheNews = req.body.townInTheNews;
+    communityActionOpportunities = req.body.communityActionOpportunities;
+    dateToBeCreated = req.body.dateToBeCreated;
+
+    let contentCategories = cityContent.saveCityBlock(city,state,dateToBeCreated,events,councilMeetingUpdates,townInTheNews,communityActionOpportunities);
+    let users = await cityContent.subscribedEmailList(city,state);
+    await cityContent.scheduleEmail(city,state,dateToBeCreated,users,contentCategories);
+
+    //send successful response for scheduled email
+    res.json({
+        status: 200,
+        message: "Successfully uploaded content!"
+    })
+})
+
+//Malhotra legacy code
+/*
 router.post('/events',(req,res)=>{
     console.log(req.body);
     events = req.body;
@@ -37,7 +62,11 @@ router.post('/communityActionOpportunities',(req,res)=>{
 });
 
 router.post('/dateAndTime',async (req,res)=>{
+   console.log("inside of /dateAndTime request handler");
+   console.log("logging date and time req body");
    console.log(req.body);
+   console.log("logging the type of the dateTime var from req body");
+   console.log(typeof req.body.dateToBeCreated);
    city = req.body.city;
    state = req.body.state;
    dateToBeCreated = req.body.dateToBeCreated;
@@ -48,7 +77,7 @@ router.post('/dateAndTime',async (req,res)=>{
 
    res.sendStatus(200);
 
-});
+});*/
 
 
 module.exports = router;

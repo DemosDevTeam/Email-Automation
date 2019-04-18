@@ -3,8 +3,6 @@ const router = express.Router();
 const Signup = require('../models/signup');
 
 router.post('/',(req,res)=>{
-
-    console.log(req.body);
     let newSignUp = new Signup({
         email: req.body.email,
         gender: req.body.gender,
@@ -29,11 +27,11 @@ router.post('/',(req,res)=>{
         }
         else
         {
-/*            res.json({
+            res.json({
                 status: 200,
                 message: 'successfully signed up!'
-            });*/
-            res.redirect('/');
+            });
+            //res.redirect('/');
         }
     })
 });

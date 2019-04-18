@@ -1,5 +1,15 @@
 const mongoose = require('mongoose');
 
+let interestSchema = mongoose.Schema({
+    housing: Number,
+    publicSpaces: Number,
+    healthAndWellness: Number,
+    transportation: Number,
+    education: Number,
+    environment: Number,
+    economicDevelopment: Number
+})
+
 const signupSchema = mongoose.Schema({
     email: {
         type: String
@@ -26,13 +36,16 @@ const signupSchema = mongoose.Schema({
         type: String
     },
     interests: {
-        type: Array
+        type: interestSchema
     },
     city: {
         type: String
     },
     state: {
         type: String
+    },
+    score: {
+        type: Number
     }
 });
 
